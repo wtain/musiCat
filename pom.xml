@@ -21,6 +21,9 @@
             </plugin>
         </plugins>
     </build>
+    <modules>
+        <module>musiCat.gui</module>
+    </modules>
 
     <dependencies>
 <!--        <dependency>

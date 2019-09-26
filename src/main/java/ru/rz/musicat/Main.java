@@ -24,11 +24,6 @@ public class Main {
         Option rec = new Option("r", "recursive", false, "recursive");
         options.addOption(rec);
 
-        //String path = args.length >= 1 ? args[0] : "d:\\_From_Phone_20190503";
-
-        //exts.add("mp3");
-        //exts.add("flac");
-
         CommandLineParser parser = new DefaultParser();
         HelpFormatter formatter = new HelpFormatter();
 

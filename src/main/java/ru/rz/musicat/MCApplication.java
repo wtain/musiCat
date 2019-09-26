@@ -1,10 +1,8 @@
 package ru.rz.musicat;
 
-import com.google.common.io.Files;
 import ealvatag.audio.exceptions.CannotReadException;
 import ealvatag.audio.exceptions.InvalidAudioFrameException;
 import ealvatag.tag.TagException;
-import org.hibernate.exception.LockAcquisitionException;
 import ru.rz.musicat.data.dto.AlbumDTO;
 import ru.rz.musicat.data.dto.ArtistDTO;
 import ru.rz.musicat.data.dto.FileDTO;
@@ -18,23 +16,26 @@ import ru.rz.musicat.ea.EAMusicStore;
 import ru.rz.musicat.interfaces.FeedbackConsumer;
 import ru.rz.musicat.interfaces.MusicFile;
 import ru.rz.musicat.interfaces.ProgressReporter;
+import ru.rz.musicat.utility.FSWalker;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
+
+import static ru.rz.musicat.utility.DatabaseHelper.TryDataChange;
 
 public class MCApplication {
 
     EAMusicStore store = new EAMusicStore();
 
-    int total = 0;
-
     private FeedbackConsumer consumer;
     private ProgressReporter progressReporter;
 
     private DataAccessFacade dataFacade;
+
+    public EAMusicStore getStore() {
+        return store;
+    }
 
     public MCApplication(FeedbackConsumer consumer, ProgressReporter progressReporter){
         this.consumer = consumer;
@@ -43,40 +44,20 @@ public class MCApplication {
         this.dataFacade = new DataAccessFacade();
     }
 
-    void Run(String path, HashSet<String> exts, boolean recursive) {
+    public void Run(String path, HashSet<String> exts, boolean recursive) {
 
-        try {
-            consumer.print(String.format("Processing folder '%s'", path));
-            processPath(new File(path), exts, recursive);
+        consumer.print(String.format("Processing folder '%s'", path));
 
-            reportSummary();
+        FSWalker walker = new FSWalker(progressReporter, file -> processFile(file));
+        walker.WalkPath(path, exts, recursive);
 
-            saveTracks();
-        }
-        finally {
-            this.dataFacade.Close();
-        }
+        reportSummary();
+        saveTracks();
+        dataFacade.Close();
     }
 
-    private void processPath(File folder, HashSet<String> exts, boolean recursive) {
-
-        if (recursive) {
-            File[] folders = folder.listFiles(pathname -> pathname.isDirectory());
-            for (File subfolder: folders)
-                processPath(subfolder, exts, true);
-        }
-
-        File[] files = folder.listFiles(pathname -> {
-            String ext = Files.getFileExtension(pathname.getName()).toLowerCase();
-            return exts.contains(ext);
-        });
-
-        processFiles(files);
-    }
-
-    private void processFile(DataChangeSession tx, File file) {
+    private void processFile(File file) {
         try {
-            tx.Save(new FileDTO(file.getAbsolutePath()));
             EAMusicFile musicFile = new EAMusicFile(file);
             store.AddMusicFile(musicFile);
         } catch (InvalidAudioFrameException | IOException | CannotReadException | TagException e) {
@@ -87,50 +68,6 @@ public class MCApplication {
     private static int SleepDelay = 300;
     private static int RetryAttempts = 10;
 
-    private static void TryDataChange(Runnable operation, int attempts, int delay) throws InterruptedException {
-        Boolean success = false;
-        int attempt = 0;
-        while (!success) {
-            try {
-                ++attempt;
-                operation.run();
-                success = true;
-            } catch (LockAcquisitionException e) {
-                e.printStackTrace();
-                System.out.println("Database is locked");
-                if (attempt == attempts)
-                    throw e;
-                System.out.println("Retrying");
-                Thread.sleep(delay);
-            }
-        }
-    }
-
-    private void processFiles(File[] files) {
-        int processed = 0;
-        int total = files.length;
-        progressReporter.resetProgress();
-        DataChangeSession tx = dataFacade.BeginTransaction();
-        try {
-            for (File file : files)
-                try {
-                    TryDataChange(() -> processFile(tx, file), RetryAttempts, SleepDelay);
-                } finally {
-                    ++processed;
-                    double perc = 100 * (double) processed / total;
-                    progressReporter.reportProgress(perc);
-                }
-            tx.Commit();
-        }
-        catch (Exception he) {
-            he.printStackTrace();
-        }
-        finally {
-            if (null != tx)
-                tx.CleanUp();
-        }
-    }
-
     private void reportSummary(){
         for (EAArtist artist: store.getArtists()) {
             consumer.print(artist.getName());
@@ -140,41 +77,33 @@ public class MCApplication {
     }
 
     private void saveTracks() {
-        List<TrackDTO> tracksToSave = new ArrayList<TrackDTO>();
-
-        DataChangeSession tx = null;
+        DataChangeSession tx = dataFacade.BeginTransaction();
         try {
-            tx = dataFacade.BeginTransaction();
             for (MusicFile t : store.getAll()) {
-                FileDTO fileDto = tx.GetFile(t.getFileNameFull());
+                FileDTO fileDto = new FileDTO(t.getFileNameFull());
+                TryDataChange(consumer, () -> tx.Save(fileDto),
+                        RetryAttempts, SleepDelay);
 
                 ArtistDTO artistDto = new ArtistDTO(0, t.getArtist());
-                tx.Save(artistDto);
+                TryDataChange(consumer, () -> tx.Save(artistDto),
+                        RetryAttempts, SleepDelay);
 
                 AlbumDTO albumDto = new AlbumDTO(0, t.getAlbum(), t.getYear(), artistDto);
-                tx.Save(albumDto);
-                tracksToSave.add(new TrackDTO(0, t.getTitle(), fileDto, albumDto));
-            }
-            tx.Commit();
-        }
-        finally {
-            tx.CleanUp();
-        }
+                TryDataChange(consumer, () -> tx.Save(albumDto),
+                        RetryAttempts, SleepDelay);
 
-        DataChangeSession tx1 = dataFacade.BeginTransaction();
-        try {
-            for (TrackDTO t : tracksToSave) {
-                TryDataChange(() -> tx1.Save(t),
+                TrackDTO track = new TrackDTO(0, t.getTitle(), fileDto, albumDto);
+                TryDataChange(consumer, () -> tx.Save(track),
                         RetryAttempts, SleepDelay);
             }
-            tx1.Commit();
+            tx.Commit();
         }
         catch (Exception e) {
             e.printStackTrace();
         }
         finally {
-            if (null != tx1)
-                tx1.CleanUp();
+            if (null != tx)
+                tx.CleanUp();
         }
     }
 
