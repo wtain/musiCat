@@ -29,6 +29,11 @@ public class EAMusicFile implements MusicFile {
         return audioFile.getFile().getName();
     }
 
+    @Override
+    public String getFileNameFull() {
+        return audioFile.getFile().getAbsolutePath();
+    }
+
     private String getTag(FieldKey fieldKey) {
         return audioFile.getTag().or(NullTag.INSTANCE).getValue(fieldKey).or("").trim();
     }
@@ -49,7 +54,7 @@ public class EAMusicFile implements MusicFile {
     }
 
     @Override
-    public int getYear() {
-        return Integer.parseInt(getTag(FieldKey.YEAR));
+    public String getYear() {
+        return getTag(FieldKey.YEAR);
     }
 }
