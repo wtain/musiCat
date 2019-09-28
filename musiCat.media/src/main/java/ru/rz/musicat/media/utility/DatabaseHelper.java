@@ -1,7 +1,7 @@
-package ru.rz.musicat.utility;
+package ru.rz.musicat.media.utility;
 
 import org.hibernate.exception.LockAcquisitionException;
-import ru.rz.musicat.interfaces.FeedbackConsumer;
+import ru.rz.musicat.media.interfaces.FeedbackConsumer;
 
 public class DatabaseHelper {
     public static void TryDataChange(FeedbackConsumer consumer, Runnable operation, int attempts, int delay) throws InterruptedException {

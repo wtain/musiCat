@@ -2,7 +2,8 @@ package ru.rz.musicat;
 
 
 import org.apache.commons.cli.*;
-import ru.rz.musicat.interfaces.FeedbackConsumer;
+import ru.rz.musicat.media.MCApplication;
+import ru.rz.musicat.media.interfaces.FeedbackConsumer;
 
 import java.util.HashSet;
 

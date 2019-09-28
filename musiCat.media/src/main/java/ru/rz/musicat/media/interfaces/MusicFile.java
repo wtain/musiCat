@@ -1,4 +1,4 @@
-package ru.rz.musicat.interfaces;
+package ru.rz.musicat.media.interfaces;
 
 public interface MusicFile {
     String getFileName();

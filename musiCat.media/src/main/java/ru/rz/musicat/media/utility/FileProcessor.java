@@ -1,4 +1,4 @@
-package ru.rz.musicat.utility;
+package ru.rz.musicat.media.utility;
 
 import java.io.File;
 

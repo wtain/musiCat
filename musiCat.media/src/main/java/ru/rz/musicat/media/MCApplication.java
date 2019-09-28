@@ -1,4 +1,4 @@
-package ru.rz.musicat;
+package ru.rz.musicat.media;
 
 import ealvatag.audio.exceptions.CannotReadException;
 import ealvatag.audio.exceptions.InvalidAudioFrameException;
@@ -9,20 +9,20 @@ import ru.rz.musicat.data.dto.FileDTO;
 import ru.rz.musicat.data.dto.TrackDTO;
 import ru.rz.musicat.data.facade.DataAccessFacade;
 import ru.rz.musicat.data.facade.detail.DataChangeSession;
-import ru.rz.musicat.ea.EAAlbum;
-import ru.rz.musicat.ea.EAArtist;
-import ru.rz.musicat.ea.EAMusicFile;
-import ru.rz.musicat.ea.EAMusicStore;
-import ru.rz.musicat.interfaces.FeedbackConsumer;
-import ru.rz.musicat.interfaces.MusicFile;
-import ru.rz.musicat.interfaces.ProgressReporter;
-import ru.rz.musicat.utility.FSWalker;
+import ru.rz.musicat.media.ea.EAAlbum;
+import ru.rz.musicat.media.ea.EAArtist;
+import ru.rz.musicat.media.ea.EAMusicFile;
+import ru.rz.musicat.media.ea.EAMusicStore;
+import ru.rz.musicat.media.interfaces.FeedbackConsumer;
+import ru.rz.musicat.media.interfaces.MusicFile;
+import ru.rz.musicat.media.interfaces.ProgressReporter;
+import ru.rz.musicat.media.utility.FSWalker;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Set;
 
-import static ru.rz.musicat.utility.DatabaseHelper.TryDataChange;
+import static ru.rz.musicat.media.utility.DatabaseHelper.TryDataChange;
 
 public class MCApplication {
 

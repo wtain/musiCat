@@ -1,4 +1,4 @@
-package ru.rz.musicat.entities;
+package ru.rz.musicat.media.entities;
 
 import java.util.HashMap;
 import java.util.function.Supplier;

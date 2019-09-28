@@ -1,9 +1,9 @@
 package ru.rz.musicat.gui;
 
 import javafx.concurrent.Task;
-import ru.rz.musicat.MCApplication;
-import ru.rz.musicat.ea.EAMusicStore;
-import ru.rz.musicat.interfaces.ProgressReporter;
+import ru.rz.musicat.media.MCApplication;
+import ru.rz.musicat.media.ea.EAMusicStore;
+import ru.rz.musicat.media.interfaces.ProgressReporter;
 
 import java.util.Set;
 

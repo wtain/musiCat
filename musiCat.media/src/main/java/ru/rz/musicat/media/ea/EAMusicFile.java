@@ -1,4 +1,4 @@
-package ru.rz.musicat.ea;
+package ru.rz.musicat.media.ea;
 
 import ealvatag.audio.AudioFile;
 import ealvatag.audio.AudioFileIO;
@@ -7,7 +7,7 @@ import ealvatag.audio.exceptions.InvalidAudioFrameException;
 import ealvatag.tag.FieldKey;
 import ealvatag.tag.NullTag;
 import ealvatag.tag.TagException;
-import ru.rz.musicat.interfaces.MusicFile;
+import ru.rz.musicat.media.interfaces.MusicFile;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,7 +21,7 @@ public class EAMusicFile implements MusicFile {
     }
 
     public EAMusicFile(File inputFile) throws TagException, CannotReadException, InvalidAudioFrameException, IOException {
-         audioFile = AudioFileIO.read(inputFile);
+        audioFile = AudioFileIO.read(inputFile);
     }
 
     @Override

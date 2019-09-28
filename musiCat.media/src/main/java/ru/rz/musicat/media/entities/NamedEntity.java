@@ -1,4 +1,4 @@
-package ru.rz.musicat.entities;
+package ru.rz.musicat.media.entities;
 
 public class NamedEntity {
     private String name;

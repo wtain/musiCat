@@ -1,6 +1,6 @@
-package ru.rz.musicat.ea;
+package ru.rz.musicat.media.ea;
 
-import ru.rz.musicat.entities.NamedEntity;
+import ru.rz.musicat.media.entities.NamedEntity;
 
 import java.util.Collection;
 import java.util.LinkedList;

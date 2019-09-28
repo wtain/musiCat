@@ -5,31 +5,30 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ru.rz</groupId>
-    <artifactId>musiCat</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>musiCat.media</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>8</source>
-                    <target>8</target>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-    <modules>
-        <module>musiCat.gui</module>
-    </modules>
-
     <dependencies>
+        <!--        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.8.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.mpatric</groupId>
+            <artifactId>mp3agic</artifactId>
+            <version>0.8.3</version>
+        </dependency>-->
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>24.1.1-jre</version>
+        </dependency>
+        <dependency>
+            <groupId>com.ealva</groupId>
+            <artifactId>ealvatag</artifactId>
+            <version>0.4.2</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/commons-cli/commons-cli -->
         <dependency>
@@ -38,11 +37,10 @@
             <version>1.4</version>
         </dependency>
         <dependency>
-            <groupId>ru.rz</groupId>
-            <artifactId>musiCat.media</artifactId>
+            <groupId>groupId</groupId>
+            <artifactId>musiCat.data</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-
     </dependencies>
     
 </project>

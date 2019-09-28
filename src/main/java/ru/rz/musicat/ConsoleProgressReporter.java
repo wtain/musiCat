@@ -1,7 +1,7 @@
 package ru.rz.musicat;
 
-import ru.rz.musicat.interfaces.FeedbackConsumer;
-import ru.rz.musicat.interfaces.ProgressReporter;
+import ru.rz.musicat.media.interfaces.FeedbackConsumer;
+import ru.rz.musicat.media.interfaces.ProgressReporter;
 
 public class ConsoleProgressReporter implements ProgressReporter {
 

@@ -1,8 +1,8 @@
-package ru.rz.musicat.ea;
+package ru.rz.musicat.media.ea;
 
-import ru.rz.musicat.entities.EntityWIthChildren;
-import ru.rz.musicat.interfaces.MusicFile;
-import ru.rz.musicat.interfaces.MusicStore;
+import ru.rz.musicat.media.entities.EntityWIthChildren;
+import ru.rz.musicat.media.interfaces.MusicFile;
+import ru.rz.musicat.media.interfaces.MusicStore;
 
 import java.util.LinkedList;
 

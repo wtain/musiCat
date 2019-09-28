@@ -1,7 +1,7 @@
-package ru.rz.musicat.utility;
+package ru.rz.musicat.media.utility;
 
 import com.google.common.io.Files;
-import ru.rz.musicat.interfaces.ProgressReporter;
+import ru.rz.musicat.media.interfaces.ProgressReporter;
 
 import java.io.File;
 import java.util.Set;

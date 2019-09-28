@@ -6,10 +6,10 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import ru.rz.musicat.ea.EAAlbum;
-import ru.rz.musicat.ea.EAArtist;
-import ru.rz.musicat.ea.EAMusicStore;
-import ru.rz.musicat.interfaces.MusicFile;
+import ru.rz.musicat.media.ea.EAAlbum;
+import ru.rz.musicat.media.ea.EAArtist;
+import ru.rz.musicat.media.ea.EAMusicStore;
+import ru.rz.musicat.media.interfaces.MusicFile;
 
 import java.util.HashSet;
 import java.util.Set;

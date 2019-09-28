@@ -2,7 +2,7 @@ package ru.rz.musicat.gui;
 
 import javafx.scene.control.TreeItem;
 import lombok.Getter;
-import ru.rz.musicat.interfaces.MusicFile;
+import ru.rz.musicat.media.interfaces.MusicFile;
 
 public class TrackTreeItem extends TreeItem {
 
