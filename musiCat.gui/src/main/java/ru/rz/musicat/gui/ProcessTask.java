@@ -1,20 +1,19 @@
 package ru.rz.musicat.gui;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import javafx.concurrent.Task;
 import ru.rz.musicat.MCApplication;
 import ru.rz.musicat.ea.EAMusicStore;
 import ru.rz.musicat.interfaces.ProgressReporter;
 
-import java.util.HashSet;
+import java.util.Set;
 
 public class ProcessTask extends Task<EAMusicStore> implements ProgressReporter {
 
     String path;
-    HashSet<String> exts;
+    Set<String> exts;
     Boolean recursive;
 
-    public ProcessTask(String path, HashSet<String> exts, Boolean recursive) {
+    public ProcessTask(String path, Set<String> exts, Boolean recursive) {
         this.path = path;
         this.exts = exts;
         this.recursive = recursive;

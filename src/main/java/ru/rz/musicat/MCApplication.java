@@ -20,7 +20,7 @@ import ru.rz.musicat.utility.FSWalker;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashSet;
+import java.util.Set;
 
 import static ru.rz.musicat.utility.DatabaseHelper.TryDataChange;
 
@@ -44,7 +44,7 @@ public class MCApplication {
         this.dataFacade = new DataAccessFacade();
     }
 
-    public void Run(String path, HashSet<String> exts, boolean recursive) {
+    public void Run(String path, Set<String> exts, boolean recursive) {
 
         consumer.print(String.format("Processing folder '%s'", path));
 

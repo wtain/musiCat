@@ -4,7 +4,7 @@ import com.google.common.io.Files;
 import ru.rz.musicat.interfaces.ProgressReporter;
 
 import java.io.File;
-import java.util.HashSet;
+import java.util.Set;
 
 public class FSWalker {
 
@@ -16,11 +16,11 @@ public class FSWalker {
         this.processor = processor;
     }
 
-    public void WalkPath(String path, HashSet<String> exts, boolean recursive) {
+    public void WalkPath(String path, Set<String> exts, boolean recursive) {
         processPath(new File(path), exts, recursive);
     }
 
-    private void processPath(File folder, HashSet<String> exts, boolean recursive) {
+    private void processPath(File folder, Set<String> exts, boolean recursive) {
 
         if (recursive) {
             File[] folders = folder.listFiles(pathname -> pathname.isDirectory());
