@@ -20,7 +20,7 @@
     <orderEntry type="library" name="Maven: com.google.j2objc:j2objc-annotations:1.1" level="project" />
     <orderEntry type="library" name="Maven: org.codehaus.mojo:animal-sniffer-annotations:1.14" level="project" />
     <orderEntry type="library" name="Maven: commons-cli:commons-cli:1.4" level="project" />
-    <orderEntry type="module" module-name="musiCat.media" exported="" />
+    <orderEntry type="module" module-name="musiCat.media" />
     <orderEntry type="library" name="Maven: com.ealva:ealvatag:0.4.2" level="project" />
     <orderEntry type="library" name="Maven: com.squareup.okio:okio:1.11.0" level="project" />
     <orderEntry type="library" name="Maven: com.ealva:ealvalog:0.0.18" level="project" />

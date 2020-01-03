@@ -12,10 +12,10 @@ public class ConsoleProgressReporter implements ProgressReporter {
         this.consumer = consumer;
     }
 
-    @Override
+    /*@Override
     public void resetProgress() {
         prevPerc = -1;
-    }
+    }*/
 
     @Override
     public void reportProgress(double perc) {
@@ -23,5 +23,25 @@ public class ConsoleProgressReporter implements ProgressReporter {
             consumer.print(String.format("Processing %.2f %% complete", perc));
             prevPerc = perc;
         }
+    }
+
+    @Override
+    public void pushSection(int nSections) {
+        prevPerc = -1;
+    }
+
+    @Override
+    public void startSection() {
+
+    }
+
+    @Override
+    public void endSection() {
+
+    }
+
+    @Override
+    public void popSection() {
+
     }
 }
