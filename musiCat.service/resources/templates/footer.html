@@ -1,0 +1,29 @@
+<div th:fragment="footerDiv()">
+	<style>
+		a.menuItem:link, a.menuItem:visited {
+		  color: green;
+		  background-color: transparent;
+		  text-decoration: none;
+		}
+		
+		a.menuItem:hover {
+		  color: red;
+		  background-color: lightblue;
+		  text-decoration: underline;
+		}
+		
+		a.menuItem:active {
+		  color: yellow;
+		  background-color: lightgray;
+		  text-decoration: underline;
+		}
+	</style>
+	<table border=1 bgcolor=darkgray width=100%>
+		<tr>
+			<td><a href="/" class="menuItem">Home</a></td>
+			<td><a href="/root/list" class="menuItem">Folders</a></td>
+			<td><a href="/album/list" class="menuItem">Albums</a></td>
+			<td><a href="/host/list" class="menuItem">Hosts</a></td>
+		</tr>
+	</table>
+</div>

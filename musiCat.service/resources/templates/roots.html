@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title>Root folders</title>
+		<link href="../static/css/style.css" 
+			  th:href="@{/css/style.css}" rel="stylesheet" />
+	  	<link href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css"
+              rel="stylesheet">
+	</head>
+	<body>
+		<div th:include="footer :: footerDiv()" />
+		<div align="center">
+			<section class="ui container">
+				<div th:if="${message}" 
+				     th:text="${message}" 
+				     th:class="${'alert ' + alertClass}"
+				     id="message"/>
+			     <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+   				 <script type="text/javascript"> 
+				     setTimeout(function() {
+				    	    $('#message').fadeOut('slow');
+				    	}, 2000); // <-- time in milliseconds
+			     </script>
+				<h1>Root Folders</h1> <br>
+				<table>
+					<thead>
+						<tr>
+							<th>Id</th>							
+							<th>Path</th>
+							<th>Host</th>
+							<th>Last Traversed</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody>     
+						<tr th:each="croot : ${roots}">
+							<td>
+								<div th:text="${croot.id}" />
+							</td>
+							<td>
+								<div th:text="${croot.problem} ? '(Problem!)' : ''" />
+								<a th:text="${croot.path}"
+								   th:href="@{/root/view/{id}(id=${croot.id})}" /><br>
+							</td>
+							<td>
+								<a th:text="${croot.host.name}" 
+								   th:href="@{/host/get/{id}(id=${croot.hostId})}" />
+							</td>
+							<td>
+								<div th:text="${croot.lastTraversed}" />
+							</td>
+							<td>
+								<a th:href="@{/root/remove/{id}(id=${croot.id})}">Remove</a><br>
+								<a th:href="@{/root/edit/{id}(id=${croot.id})}">Edit</a><br>
+								<a th:href="@{/root/traverse/{id}(id=${croot.id})}">Force traversal</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</section>
+		</div>
+		
+		<br><hr><br>
+		
+		<div align="center">
+			<section class="ui container">
+				<h1>Add root folder</h1>
+				<form 	class="ui form" 
+						name="addRootForm"
+						action="#" 
+						th:object="${root}"
+						th:action="@{/root/create}" 				
+						method="post">
+					<input type="hidden" th:field="*{id}" />
+<!-- 					<input type="hidden" th:field="*{host.id}" /> -->
+					<table>
+						<tr>
+				    		<td>Path:</td>
+				    		<td><input type="text" th:field="*{path}" /></td>
+				    	</tr>
+						<tr>
+							<td><input type="submit" value="Submit" /></td>
+							<td><input type="reset" value="Reset" /></td>
+						</tr>
+					</table>
+			    </form>
+	    	</section>
+	    </div>
+	</body>
+</html>

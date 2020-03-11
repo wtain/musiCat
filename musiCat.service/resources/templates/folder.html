@@ -1,0 +1,123 @@
+<html>
+<head>
+	<title th:text="${folder.path}" />
+	<link 
+		href="../static/css/style.css" 
+		th:href="@{/css/style.css}"
+		rel="stylesheet" />
+	<link
+		href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css"
+		rel="stylesheet">
+	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+</head>
+<body>
+	<!--@thymesVar id="enable_edit"-->
+	<input type="hidden" id="global_enable_edit" th:value="${enable_edit}" />
+	<div th:include="footer :: footerDiv()" />
+	<script th:src="@{/js/folder.js}"></script>
+	<div align="center">
+		<section class="ui container">
+			<h1>
+				Images in folder
+				<div th:text="${folder.path}" />
+			</h1>
+			<br>
+			<table>
+				<tbody>
+					<tr th:each="cimage : ${images}">
+						<td>
+							<div th:include="image :: imageDiv(${cimage})" align="center" />
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</section>
+	</div>
+</body>
+</html>
+
+
+
+<!-- 					
+						<table border=1>
+							<tr>
+								<td>
+									<div th:text="@{({id}) {filename}(id=${cimage.id}, filename=${cimage.fileName})}" />
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<a th:href="@{/image/get/{id}(id=${cimage.id})}">
+										<img
+											th:src="@{/image/get/{id}(id=${cimage.id})}" 
+											height="200"
+											width="auto" />
+									</a>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div th:id="@{description{id}(id=${cimage.id})}">
+										<div th:id="@{description{id}_text(id=${cimage.id})}"
+										     th:text="${cimage.description}"
+											 th:ondblclick="|description_onclick('description${cimage.id}')|" />
+										<div th:ondblclick="|description_onclick('description${cimage.id}')|">
+										Album: 
+										<div th:id="@{description{id}_albumtext(id=${cimage.id})}">
+											<div th:if="${cimage.album == null}">
+												(No album)
+											</div>
+											<div th:unless="${cimage.album == null}" 
+												 th:text="${cimage.album.name}" />
+											</div>
+										</div>
+										<button
+											th:onclick="|description_onclick('description${cimage.id}')|">Edit</button>
+									</div>
+									<div style="display: none"
+										th:id="@{description{id}_div(id=${cimage.id})}">
+										<! - - th:onfocusout="|description_edit_onfocusout('description${cimage.id}')|" - - >
+										<form 
+											class="ui form" 
+											action="#"
+											th:object="${update_description_data}" 
+											th:action="@{/image/update/{id}(id=${cimage.id})}" 
+											th:onsubmit="|submit_onclick('description${cimage.id}', event)|"
+											th:id="@{description{id}_form(id=${cimage.id})}"
+											method="post">
+											<input type="hidden" 
+													th:value="${cimage.id}" 
+													name="id" 
+													th:id="@{description{id}_imageid(id=${cimage.id})}" />
+											<input type="hidden" 
+													th:value="${folder.id}" 
+													name="folder_id" 
+													th:id="@{description{id}_folderid(id=${cimage.id})}" />
+											<input type="text" 
+													th:value="${cimage.description}" 
+													name="description" 
+													th:id="@{description{id}_edit(id=${cimage.id})}" />
+											<select th:id="@{description{id}_album(id=${cimage.id})}"
+											        name="album">
+												<option th:attrappend="selected=${cimage.album == null}?selected"
+														value="0">
+													(No album)
+												</option>
+												<option th:each="calbum : ${albums}"
+														th:value="${calbum.id}"
+														th:attrappend="selected=${cimage.album != null && cimage.album.id == calbum.id}?selected">
+													<div th:text="${calbum.name}" />
+												</option>
+											</select>
+											<input type="submit" value="Submit" /> 
+											<input type="reset" value="Reset" />
+										</form>
+										<button 
+												th:onclick="|canceledit_onclick('description${cimage.id}')|">
+											Cancel
+										</button>
+									</div>
+								</td>
+							</tr>
+						</table>
+-->						

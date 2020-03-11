@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Albums</title>
+<link href="../static/css/style.css" th:href="@{/css/style.css}"
+	rel="stylesheet" />
+<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css"
+	rel="stylesheet">
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+</head>
+<body>
+	<div th:include="footer :: footerDiv()" />
+	<script th:src="@{/js/albums.js}"></script>
+	<section class="ui container">
+		<h1>Albums</h1>
+		<br>
+		<br>
+
+		<div id="message"
+			class="display: none; z-index: 1; position: absolute; top: 0">
+		</div>
+
+		<div th:with="albums_empty=${#lists.isEmpty(albums)}"
+			th:fragment="albumList" id="resultsBlock" th:id="resultsBlock">
+
+			<button onclick="showAddAlbumForm()">Add...</button>
+			<div style="display: none" id="addAlbumForm">
+				<form class="ui form" action="#" th:action="@{/album/create}"
+					id="create_album_form" th:object="${album}"
+					th:id="create_album_form" method="post"
+					th:onsubmit="|addalbum_submit_onclick(event)|">
+					<table>
+						<tr>
+							<td>Name:</td>
+							<td><input type="text" name="name"
+								th:id="create_album_form_name" th:field="*{name}" /></td>
+						</tr>
+						<tr>
+							<td>Description:</td>
+							<td><input type="text" name="description"
+								th:id="create_album_form_description" th:field="*{description}" /></td>
+						</tr>
+						<tr>
+							<td><input type="submit" value="OK" /></td>
+							<td><button onclick="hideAddAlbumForm()">Cancel</button></td>
+						</tr>
+					</table>
+				</form>
+			</div>
+
+			<h3 th:if="${albums_empty}">No albums yet</h3>
+			<table th:unless="${albums_empty}">
+				<thead>
+					<tr>
+						<th>Id</th>
+						<th>Name</th>
+						<th>Description</th>
+						<th>Operations</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="calbum : ${albums}">
+						<td>
+							<div th:text="${calbum.id}" />
+						</td>
+						<td><a th:text="${calbum.name}"
+							th:id="@{album_name_static_{id}(id=${calbum.id})}"
+							th:href="@{/album/view/{id}(id=${calbum.id})}" /> <input
+								th:id="@{album_name_edit_{id}(id=${calbum.id})}"
+								style="display: none" /></td>
+						<td>
+							<div th:text="${calbum.description}"
+								th:id="@{album_description_static_{id}(id=${calbum.id})}" /> <input
+							th:id="@{album_description_edit_{id}(id=${calbum.id})}"
+							style="display: none" />
+						</td>
+						<td>
+							<button th:id="@{album_button_remove_{id}(id=${calbum.id})}"
+								th:onclick="|removealbum_onclick('${calbum.id}')|">
+								Remove</button>
+							<button th:id="@{album_button_edit_{id}(id=${calbum.id})}"
+								th:onclick="|editalbum_onclick('${calbum.id}')|">Edit</button>
+							<button th:id="@{album_button_update_{id}(id=${calbum.id})}"
+								th:onclick="|updatealbum_onclick('${calbum.id}')|"
+								style="display: none">Update</button>
+							<button th:id="@{album_button_canceledit_{id}(id=${calbum.id})}"
+								th:onclick="|canceleditalbum_onclick('${calbum.id}')|"
+								style="display: none">Cancel</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+		</div>
+	</section>
+</body>
+</html>

@@ -1,12 +1,12 @@
 package ru.rz.musicat.media.ea;
 
-import ru.rz.musicat.media.entities.EntityWIthChildren;
+import ru.rz.musicat.media.entities.EntityWithChildren;
 import ru.rz.musicat.media.interfaces.MusicFile;
 import ru.rz.musicat.media.interfaces.MusicStore;
 
 import java.util.LinkedList;
 
-public class EAMusicStore extends EntityWIthChildren<EAArtist> implements MusicStore {
+public class EAMusicStore extends EntityWithChildren<EAArtist> implements MusicStore {
 
     private LinkedList<EAMusicFile> musicFiles = new LinkedList<>();
 

@@ -3,13 +3,13 @@ package ru.rz.musicat.media.entities;
 import java.util.HashMap;
 import java.util.function.Supplier;
 
-public class EntityWIthChildren<T extends NamedEntity> extends NamedEntity {
+public class EntityWithChildren<T extends NamedEntity> extends NamedEntity {
 
     private HashMap<String, T> children = new HashMap<>();
 
-    public EntityWIthChildren() {}
+    public EntityWithChildren() {}
 
-    public EntityWIthChildren(String name) {
+    public EntityWithChildren(String name) {
         super(name);
     }
 

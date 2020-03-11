@@ -1,0 +1,105 @@
+<!--
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Image</title>
+</head>
+<body>
+-->
+
+<!--@thymesVar id="cimage"-->
+<!--@thymesVar id="enable_edit"-->
+<div th:fragment="imageDiv(cimage)">
+    <table border=1 th:id="@{image_div_root{id}(id=${cimage.id})}">
+		<tr>
+			<td>
+				<div 
+					th:text="@{({id}) {filename}(id=${cimage.id}, filename=${cimage.fileName})}" />
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<a th:href="@{/image/get/{id}(id=${cimage.id})}">
+					<img
+						th:src="@{/image/get/{id}(id=${cimage.id})}" 
+						height="200"
+						width="auto" />
+				</a>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<div th:id="@{description{id}(id=${cimage.id})}">
+					<div th:id="@{description{id}_text(id=${cimage.id})}"
+					     th:text="${cimage.description}"
+						 th:ondblclick="|description_onclick('description${cimage.id}')|" />
+					<div th:ondblclick="|description_onclick('description${cimage.id}')|">
+						Album: 
+						<div th:id="@{description{id}_albumtext(id=${cimage.id})}">
+							<div th:if="${cimage.album == null}">
+								(No album)
+							</div>
+							<div th:unless="${cimage.album == null}" 
+								 th:text="${cimage.album.name}" />
+						</div>
+					</div>
+					<button
+						th:if="${enable_edit}"
+						th:onclick="|description_onclick('description${cimage.id}')|">Edit</button>
+					<button
+						th:onclick="|remove_onclick('${cimage.id}', 'image_div_root${cimage.id}')|">Remove</button>
+				</div>
+				<div style="display: none"
+					th:id="@{description{id}_div(id=${cimage.id})}">
+					<!-- th:onfocusout="|description_edit_onfocusout('description${cimage.id}')|" -->
+					<form 
+						th:if="${enable_edit}"
+						class="ui form" 
+						action="#"
+						th:object="${update_description_data}" 
+						th:action="@{/image/update/{id}(id=${cimage.id})}" 
+						th:onsubmit="|submit_onclick('description${cimage.id}', event)|"
+						th:id="@{description{id}_form(id=${cimage.id})}"
+						method="post">
+						<input type="hidden" 
+								th:value="${cimage.id}" 
+								name="id" 
+								th:id="@{description{id}_imageid(id=${cimage.id})}" />
+						<input type="hidden" 
+								th:value="${folder.id}" 
+								name="folder_id" 
+								th:id="@{description{id}_folderid(id=${cimage.id})}" />
+						<input type="text" 
+								th:value="${cimage.description}" 
+								name="description" 
+								th:id="@{description{id}_edit(id=${cimage.id})}" />
+						<select th:id="@{description{id}_album(id=${cimage.id})}"
+						        name="album">
+							<option th:attrappend="selected=${cimage.album == null}?selected"
+									value="0">
+								(No album)
+							</option>
+							<option th:each="calbum : ${albums}"
+									th:value="${calbum.id}"
+									th:attrappend="selected=${cimage.album != null && cimage.album.id == calbum.id}?selected">
+								<div th:text="${calbum.name}" />
+							</option>
+						</select>
+						<input type="submit" value="Save" />
+						<button 
+							th:onclick="|canceledit_onclick('description${cimage.id}')|">
+							Cancel
+						</button>
+					</form>
+				</div>
+			</td>
+		</tr>
+	</table>
+</div>
+
+<!-- 
+</body>
+</html>
+-->

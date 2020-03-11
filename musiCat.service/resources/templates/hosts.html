@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title>Hosts</title>
+		<link href="../static/css/style.css" 
+			  th:href="@{/css/style.css}" rel="stylesheet" />
+	  	<link href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css"
+              rel="stylesheet">
+	</head>
+	<body>
+		<div th:include="footer :: footerDiv()" />
+		<div align="center">
+			<section class="ui container">
+				<div th:if="${message}" 
+				     th:text="${message}" 
+				     th:class="${'alert ' + alertClass}"
+				     id="message"/>
+			     <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+   				 <script type="text/javascript"> 
+				     setTimeout(function() {
+				    	    $('#message').fadeOut('slow');
+				    	}, 2000); // <-- time in milliseconds
+			     </script>
+				<h1>Hosts</h1> <br>
+				<table>
+					<thead>
+						<tr>
+							<th>Id</th>
+							<th>Name</th>
+							<th>Network address</th>
+							<th>Physical Id</th>
+							<th>Last updated</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody>     
+						<tr th:each="chost : ${hosts}">
+							<td>
+								<div th:text="${chost.id}" />
+							</td>
+							<td>
+								<div th:text="${chost.name}" />
+							</td>
+							<td>
+								<a th:text="${chost.networkAddress}" 
+								   th:href="@{/host/get/{id}(id=${chost.id})}" />
+							</td>
+							<td>
+								<div th:text="${chost.physicalId}" />
+								<div th:text="${!existing && host.physicalId == chost.physicalId} ? '(This host)' : ''" />
+							</td>
+							<td>
+								<div th:text="${chost.lastUpdated}" />
+							</td>
+							<td>
+								<a th:href="@{/host/remove/{id}(id=${chost.id})}">Remove</a><br>
+								<a th:href="@{/host/edit/{id}(id=${chost.id})}">Edit</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</section>
+		</div>
+		
+		<br><hr><br>
+		
+		<div align="center">
+			<section class="ui container">
+				<h1>Add host</h1>
+				<form 	class="ui form" 
+						name="addHostForm"
+						action="#" 
+						th:object="${host}"
+						th:action="@{/host/create}" 				
+						method="post">
+<!-- 					<input type="hidden" name="existing" th:value="${existing}" /> -->
+					<input type="hidden" th:field="*{id}" />
+					<table>
+						<tr>
+				    		<td>Name:</td>
+				    		<td><input type="text" th:field="*{name}" /></td>
+				    	</tr>
+						<tr>
+							<td>Physical id</td>
+							<td><input type="text" readonly="readonly" th:field="*{physicalId}" /></td>
+						</tr>
+							<tr><td>Network address:</td>
+							<td><input type="text" readonly="readonly" th:field="*{networkAddress}" /></td>
+						</tr>
+						<tr>
+							<td><input type="submit" value="Submit" /></td>
+							<td><input type="reset" value="Reset" /></td>
+						</tr>
+					</table>
+			    </form>
+	    	</section>
+	    </div>
+	    
+	    <br><hr><br>
+	    
+	    <a href="/">Index</a>
+	</body>
+</html>

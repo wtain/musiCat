@@ -1,8 +1,8 @@
 package ru.rz.musicat.media.ea;
 
-import ru.rz.musicat.media.entities.EntityWIthChildren;
+import ru.rz.musicat.media.entities.EntityWithChildren;
 
-public class EAArtist extends EntityWIthChildren<EAAlbum> {
+public class EAArtist extends EntityWithChildren<EAAlbum> {
 
     public EAArtist() {}
 
