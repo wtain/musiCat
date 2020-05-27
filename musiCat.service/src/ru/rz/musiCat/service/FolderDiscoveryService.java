@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -70,27 +71,42 @@ public class FolderDiscoveryService {
 				System.out.println(String.format("Traversing folder %s", folder.getPath()));
 				
 				try (Stream<Path> walk = 
-						Files.walk(Paths.get(folder.getPath()))) {
+						Files.walk(Paths.get(folder.getPath()), 1)) {
 
-					/* List<String> */Stream<String> files = walk
+					Stream<Path> files = walk
 							.filter(Files::isRegularFile)
 							.filter(f -> extensions.contains(FilenameUtils.getExtension(f.getFileName().toString())))
-							//.map(x -> x.toString()).collect(Collectors.toList());
-							.map(x -> x.getFileName().toString())/* .collect(Collectors.toList()) */;
+							.map(x -> x.getFileName()/* .toAbsolutePath() */);
 					
-					//files.forEach(f -> System.out.println(f));
+					Set<String> fileNamesInFS = 
+							files
+							.map(p -> FilenameUtils.concat(folder.getPath(), p.toString()))
+							.collect(Collectors.toSet());
+					
+					// recurse!
 					
 					Map<String, Image> images = imageRepository.findAllByFolder(folder)
 							.stream()
 							.collect(Collectors.toMap(Image::getFileName, Function.identity()));
 					
-					//files.forEach(f -> imageRepository.save(new Image(f, folder)));
-					imageRepository.saveAll(files
-							.map(f -> images.containsKey(f) ? images.get(f) : new Image(f, folder) 
-									
-								//new Image(f, folder)
+					images
+						.entrySet()
+						.stream()
+						.filter(e -> !fileNamesInFS.contains(e.getKey()))
+						.map(e -> e.getValue())
+						.forEach(i -> 
+						{
+							System.out.println(String.format("Removing image %s", i.getFileName()));
+							i.setIsRemoved(Boolean.TRUE);
+							imageRepository.save(i);
+						});
+					
+					imageRepository.saveAll(//files
+							fileNamesInFS.stream()
+							//.map(f -> f.toString())
+							.map(f -> images.containsKey(f) ? images.get(f).notRemoved() : new Image(f, folder) 
 							)::iterator);
-					// Merge!
+					// Merge! and remove
 					
 				} catch (IOException e) {
 					System.out.println(String.format("Found a problem with folder %s: %s", 

@@ -1,9 +1,6 @@
-// <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-//new Element("script", {src: "http://code.jquery.com/jquery-1.9.1.js", type: "text/javascript"});
 
 function description_onclick(id) {
 	console.log("description_onclick");
-	//window.alert("Edit " + id);
 	var enable_edit = $("#global_enable_edit").val();
 	console.log("enable_edit = " + enable_edit);
 	if (!enable_edit)
@@ -45,17 +42,14 @@ function remove_onclick(imageid, divid) {
 
 function submit_onclick(id, event) {
 	console.log("submit_onclick");
-	//window.alert("Edit " + id + "\nEvent = " + event);
 	hideEdit(id);
 	form_submit(event, id);
 }
 
 function form_submit(event, id) {
 	console.log("form_submit");
-    /* stop form from submitting normally */
     event.preventDefault();
 
-    /* get the action attribute from the <form action=""> element */
     var $form = /*$( this )*/ $('#' + id + "_form"),
         url = $form.attr( 'action' );
     
@@ -83,17 +77,10 @@ function form_submit(event, id) {
     			album: album
     		} );
     
-    //window.alert(posting);
-
-    /* Alerts the results */
     posting.done(function( data ) {
-      //alert('success');
     	console.log("posting.done");
     	console.log("success: description = " + description);
     	document.getElementById(id + "_text").innerHTML = description;
     	document.getElementById(id + "_albumtext").innerHTML = albumName;
-    	//${cimage.description} = description;
-    	//[[${session.address.cimage.description}]] = description;
-    	//console.log("document.getElementById(id).text = " + document.getElementById(id).text);
     });
 }

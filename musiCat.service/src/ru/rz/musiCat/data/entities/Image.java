@@ -68,6 +68,12 @@ public class Image implements Serializable {
     public Boolean isRemoved() { return removed; }
     public void setIsRemoved(Boolean removed) { this.removed = removed; }
     
+    public Image notRemoved() 
+    {
+    	setIsRemoved(Boolean.FALSE);
+    	return this;
+    }
+    
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
     

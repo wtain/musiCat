@@ -43,7 +43,7 @@ public class ImageController {
 	            .orElseThrow(() -> new ResourceNotFoundException("Image", "id", imageId));
 	    
 	    
-	    File f = new File(FilenameUtils.concat(img.getFolder().getPath(), img.getFileName()));
+	    File f = new File(img.getFileName());
 	    InputStream inputStream = new BufferedInputStream(new FileInputStream(f));
 	    IOUtils.copy(inputStream, response.getOutputStream());
 	}
