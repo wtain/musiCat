@@ -14,7 +14,7 @@
     "babel-loader": "^8.1.0",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",
-    "webpack-dev-server": "^3.3.1",
+    "webpack-dev-server": "^4.11.0",
     "webpack-merge": "^4.1.0"
   },
   "babel": {
